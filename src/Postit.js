@@ -9,7 +9,7 @@ class Postit extends React.Component {
         };
     }
     
-    handleChangenewItemNameName = (event) => {
+    handleChangeItemName = (event) => {
         this.setState({
             newItemName: event.target.value,
             items: this.state.items,
@@ -38,6 +38,18 @@ class Postit extends React.Component {
         });
     }
 
+    handleChangeItem = (event, i) => {
+        this.setState(function(state) {
+            state.items[i] = { 
+                name: event.target.value,
+                date: new Date().toLocaleString(),
+            };
+            return {
+                items: state.items,
+            };
+        });
+    }
+
     render () {
         return <div>
             <h1>{this.props.name}</h1>
@@ -47,7 +59,9 @@ class Postit extends React.Component {
                     <li key={"item"+i}>
                         <div>
                             <p>
-                                {item.name}
+                                <input type="text"
+                                    value={item.name}
+                                    onChange={(event) => this.handleChangeItem(event, i)}/>
                                 <button name="remove" onClick={() => this.removeItem(i)}>
                                     -
                                 </button>
@@ -60,7 +74,7 @@ class Postit extends React.Component {
           
             <input type="text" placeholder="Bullet do Postit"
                 value={this.state.newItemName}
-                onChange={this.handleChangenewItemNameName}/>
+                onChange={this.handleChangeItemName}/>
             <button name="Submit" onClick={this.submit} >Submit</button>
         </div>
     }
